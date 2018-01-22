@@ -17,13 +17,8 @@ import java.awt.GridLayout;
 import javax.swing.ImageIcon;
 
 public class Homework1 extends JPanel implements TreeSelectionListener {
-	private JEditorPane htmlPane;
+	private JEditorPane htmlPane = new JEditorPane();
 	private JTree tree;
-
-	//Optionally play with line styles.  Possible values are
-
-	//Optionally set the look and feel.
-	private static boolean useSystemLookAndFeel = false;
 
 	public Homework1(Node n) {
 		super(new GridLayout(1,0));
@@ -47,9 +42,6 @@ public class Homework1 extends JPanel implements TreeSelectionListener {
 
 		//Create the scroll pane and add the tree to it.
 		JScrollPane treeView = new JScrollPane(tree);
-
-		//Create the HTML viewing pane.
-		htmlPane = new JEditorPane();
 
 		JScrollPane htmlView = new JScrollPane(htmlPane);
 
@@ -91,8 +83,6 @@ public class Homework1 extends JPanel implements TreeSelectionListener {
 	@Override
 	public void valueChanged(TreeSelectionEvent e) {
 		DefaultMutableTreeNode node = (DefaultMutableTreeNode) tree.getLastSelectedPathComponent();
-
-		if (node == null) return;
 
 		Node n =(Node) node.getUserObject();
 		String text = inorder(n);
