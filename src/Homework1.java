@@ -20,7 +20,7 @@ public class Homework1 extends JPanel implements TreeSelectionListener {
 	private JEditorPane htmlPane = new JEditorPane();
 	private JTree tree;
 
-	public Homework1(Node n) {
+	Homework1(Node n) {
 		super(new GridLayout(1,0));
 
 		tree = new JTree(createNodes(n));
@@ -122,7 +122,7 @@ public class Homework1 extends JPanel implements TreeSelectionListener {
 			n = infix(tmp);
 		}
 		String text = inorder(n);
-		if (n.getLeft() != null) text = text.substring(1,text.length()-1) + "=" +calculator(n);
+		if (n.getLeft() != null) text = text.substring(1,text.length()-1);// + "=" +calculator(n);
 		System.out.println(text);
 
 
@@ -137,14 +137,9 @@ public class Homework1 extends JPanel implements TreeSelectionListener {
 	private static Node infix(Node n){
 		if (!n.getValue().matches("[0-9]")) {
 			n.setRight(n.getLeft());
-			if (n.getLeft().getValue().matches("[0-9]")) {
-				n.setLeft(n.getRight().getLeft());
-				n.getRight().setLeft(null);
-			} else {
-				n.setRight(n.getLeft());
-				n.setLeft(n.getRight().getLeft().getLeft());
-				n.getRight().getLeft().setLeft(null);
-			}
+			Node tmp = getFirstLeftestOperand(n);
+			n.setLeft(tmp.getLeft());
+			tmp.setLeft(null);
 		}
 		return n;
 	}
@@ -178,6 +173,11 @@ public class Homework1 extends JPanel implements TreeSelectionListener {
 		}
 
 		return result;
+	}
+
+	private static Node getFirstLeftestOperand(Node n){
+		if(n.getValue().matches("[0-9]")) return n;
+		return getFirstLeftestOperand(n.getLeft());
 	}
 }
 
